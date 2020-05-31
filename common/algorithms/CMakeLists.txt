@@ -1,18 +1,17 @@
 ## Copyright 2009-2020 Intel Corporation
 ## SPDX-License-Identifier: Apache-2.0
 
-ADD_LIBRARY(algorithms OBJECT
- parallel_for.cpp
- parallel_reduce.cpp
- parallel_prefix_sum.cpp
- parallel_for_for.cpp
- parallel_for_for_prefix_sum.cpp
- parallel_partition.cpp
- parallel_sort.cpp
- parallel_set.cpp
- parallel_map.cpp
- parallel_filter.cpp
-)
-
-SET_PROPERTY(TARGET algorithms PROPERTY FOLDER common)
-SET_PROPERTY(TARGET algorithms APPEND PROPERTY COMPILE_FLAGS " ${FLAGS_LOWEST}")
+ADD_COMMON_LIBRARY(algorithms
+  PUBLIC_CLASSES
+    parallel_filter
+    parallel_for
+    parallel_for_for
+    parallel_for_for_prefix_sum
+    parallel_map
+    parallel_partition
+    parallel_prefix_sum
+    parallel_reduce
+    parallel_set
+    parallel_sort
+  PUBLIC_HEADERS
+    parallel_any_of.h)

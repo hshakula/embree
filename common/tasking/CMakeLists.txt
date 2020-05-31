@@ -1,20 +1,18 @@
 ## Copyright 2009-2020 Intel Corporation
 ## SPDX-License-Identifier: Apache-2.0
 
+SET(libraries "")
 IF (TASKING_INTERNAL)
-  ADD_LIBRARY(tasking STATIC taskschedulerinternal.cpp)
+  SET(public_class taskschedulerinternal)
 ELSEIF (TASKING_TBB)
-  ADD_LIBRARY(tasking STATIC taskschedulertbb.cpp)
-  TARGET_LINK_LIBRARIES(tasking PUBLIC ${TBB_LIBRARIES})
+  SET(public_class taskschedulertbb)
+  SET(libraries ${TBB_LIBRARIES})
 ELSEIF (TASKING_PPL)
-  ADD_LIBRARY(tasking STATIC taskschedulerppl.cpp)
-  TARGET_LINK_LIBRARIES(tasking PUBLIC ${PPL_LIBRARIES})
+  SET(public_class taskschedulerppl)
+  SET(libraries ${PPL_LIBRARIES})
 ENDIF()
 
-SET_PROPERTY(TARGET tasking PROPERTY FOLDER common)
-SET_PROPERTY(TARGET tasking APPEND PROPERTY COMPILE_FLAGS " ${FLAGS_LOWEST}")
-
-IF (EMBREE_STATIC_LIB)
-  INSTALL(TARGETS tasking EXPORT tasking-targets ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT devel)
-  INSTALL(EXPORT tasking-targets DESTINATION ${EMBREE_CMAKEEXPORT_DIR} COMPONENT devel)
-ENDIF()
+ADD_COMMON_LIBRARY(tasking
+    PUBLIC_CLASSES ${public_class}
+    PUBLIC_HEADERS taskscheduler.h
+    LIBRARIES ${libraries})

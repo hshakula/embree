@@ -54,10 +54,29 @@ IF (EMBREE_STATIC_LIB)
   INCLUDE("${EMBREE_ROOT_DIR}/@EMBREE_CMAKEEXPORT_DIR@/lexers-targets.cmake")
   INCLUDE("${EMBREE_ROOT_DIR}/@EMBREE_CMAKEEXPORT_DIR@/tasking-targets.cmake")
 
-  add_library(TBB::tbb SHARED IMPORTED)
-  set_target_properties(TBB::tbb PROPERTIES IMPORTED_LOCATION "${EMBREE_ROOT_DIR}/@EMBREE_INSTALLED_TBB@")
+  if(NOT TARGET TBB::tbb)
+      add_library(TBB::tbb SHARED IMPORTED)
+      set_target_properties(TBB::tbb PROPERTIES IMPORTED_LOCATION "${EMBREE_ROOT_DIR}/@EMBREE_INSTALLED_TBB@")
+  endif()
   
 ENDIF()
+
+
+if(EMBREE_ISA_SSE42)
+  INCLUDE("${EMBREE_ROOT_DIR}/cmake/embree_sse42-targets.cmake")
+endif()
+if(EMBREE_ISA_AVX)
+  INCLUDE("${EMBREE_ROOT_DIR}/cmake/embree_avx-targets.cmake")
+endif() 
+if(EMBREE_ISA_AVX2)
+  INCLUDE("${EMBREE_ROOT_DIR}/cmake/embree_avx2-targets.cmake")
+endif()
+if(EMBREE_ISA_AVX512KNL)
+  INCLUDE("${EMBREE_ROOT_DIR}/cmake/embree_avx512knl-targets.cmake")
+endif()
+if(EMBREE_ISA_AVX512SKX)
+  INCLUDE("${EMBREE_ROOT_DIR}/cmake/embree_avx512skx-targets.cmake")
+endif()
 
 INCLUDE("${EMBREE_ROOT_DIR}/@EMBREE_CMAKEEXPORT_DIR@/embree-targets.cmake")
 
