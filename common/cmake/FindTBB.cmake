@@ -336,6 +336,8 @@ function(rk_tbb_find_library COMPONENT_NAME BUILD_CONFIG)
       ${TBB_ROOT}/libx86_64-linux-gnu)
   endif()
 
+  list(APPEND LIB_PATHS ${TBB_ROOT})
+
   # We prefer finding the versioned file on Unix so that the library path
   # variable will not point to a symlink. This makes installing TBB as a
   # dependency easier.
